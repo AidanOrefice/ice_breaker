@@ -4,13 +4,13 @@ from langchain.chains import LLMChain
 from dotenv import load_dotenv
 from third_parties.linkedin import scrape_linkedin_profile
 from agents.linkedin_lookup_agent import lookup as linkedin_lookup_agent
+from langchain import hub
 
 load_dotenv()
 
 
 if __name__ == "__main__":
     print("Hello LangChain!")
-
     summary_template = """
         given the LinkedIn information {information} about a person from I want you to create:
         1. A short summary
@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
     chain = LLMChain(llm=llm, prompt=summary_prompt_template)
 
-    linkedin_profile_url = linkedin_lookup_agent(name="Aidan Orefice Kubrick")
+    linkedin_profile_url = linkedin_lookup_agent(name="Aidan Orefice")
     linkedin_data = scrape_linkedin_profile(linkedin_profile_url=linkedin_profile_url)
 
     result = chain.invoke({"information": linkedin_data})
