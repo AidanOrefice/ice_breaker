@@ -46,5 +46,17 @@ def lookup(name):
         agent=agent, tools=tools_for_agent, verbose=True, handle_parsing_errors=True
     )
 
-    linkedin_profile_url = agent_executor.invoke({"name_of_person": name})
+    
+    
+
+
+    try:
+        linkedin_profile_url = agent_executor.invoke({"name_of_person": name})
+    except ValueError as e:
+        linkedin_profile_url = str(e)
+        if not linkedin_profile_url.startswith("Could not parse LLM output: `"):
+            raise e
+        linkedin_profile_url = linkedin_profile_url.removeprefix("Could not parse LLM output: `").removesuffix("`")
+
+    print(linkedin_profile_url)
     return linkedin_profile_url

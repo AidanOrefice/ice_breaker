@@ -11,7 +11,7 @@ def scrape_linkedin_profile(linkedin_profile_url: str):
     api_endpoint = "https://nubela.co/proxycurl/api/v2/linkedin"
     header_dic = {"Authorization": f"Bearer {os.environ.get('PROXYCURL_API_KEY')}"}
 
-    if True:
+    if not True:
         response = requests.get(
             "https://gist.githubusercontent.com/AidanOrefice/8ac51364956513d5ec801e47438c2570/raw/72d538e6e80f6a31c4fc1fcac00460d3c21a8d97/aidan-orefice.json"
         )
@@ -31,5 +31,7 @@ def scrape_linkedin_profile(linkedin_profile_url: str):
     if data.get("groups"):
         for group_dict in data.get("groups"):
             group_dict.pop("profile_pic_url")
+    
+    #data["profile_pic_url"] = "https://www.linkedin.com/in/aidan-orefice"
 
     return data

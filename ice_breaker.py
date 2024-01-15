@@ -27,22 +27,21 @@ def ice_break(name):
         },
     )
 
-    llm = ChatOpenAI(temperature=1, model_name="gpt-3.5-turbo")
+    llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
 
     chain = LLMChain(llm=llm, prompt=summary_prompt_template)
 
     linkedin_profile_url = linkedin_lookup_agent(name="Aidan Orefice")
-    linkedin_data = scrape_linkedin_profile(linkedin_profile_url=linkedin_profile_url)
+    print(linkedin_profile_url)
+    #linkedin_data = scrape_linkedin_profile(linkedin_profile_url=str(linkedin_profile_url['output']))
+    #print(linkedin_data)
 
-    result = chain.invoke(
-        {
-            "linkedin_information": linkedin_data,
-        }
-    )
-    print(result["text"])
-    return person_intel_parser.parse(result["text"])
+    result = chain.run(linkedin_information= linkedin_data)
+
+    return person_intel_parser.parse(result["text"]), linkedin_data.get("profile_pic_url")
 
 
 if __name__ == "__main__":
     name = "Aidan Orefice"
     result = ice_break(name)
+    print(result)
